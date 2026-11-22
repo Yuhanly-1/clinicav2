@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar sesión · DermaCare</title>
+  <meta name="description" content="Acceso seguro al sistema de gestión de la clínica dermatológica DermaCare">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <div class="auth-wrap">
+    <section class="auth-hero">
+      <div class="hero-img"></div>
+      <div class="hero-overlay"></div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="brand-mark"><i class="bi bi-heart-pulse"></i></span>
+        <span class="brand-name">DermaCare<small>CLÍNICA DERMATOLÓGICA</small></span>
+      </div>
+      <div>
+        <p class="tagline mb-2">Tecnología · Salud · Confianza</p>
+        <h1 class="mb-4">Gestión clínica dermatológica en una sola plataforma.</h1>
+        <div class="hero-features">
+          <div class="hero-feature"><i class="bi bi-calendar2-check"></i><div><strong class="text-white d-block">Agenda sin choques</strong>Validación de disponibilidad en tiempo real para cada especialista.</div></div>
+          <div class="hero-feature"><i class="bi bi-journal-medical"></i><div><strong class="text-white d-block">Historial clínico completo</strong>Consultas, diagnósticos y tratamientos protegidos por rol.</div></div>
+          <div class="hero-feature"><i class="bi bi-bar-chart-line"></i><div><strong class="text-white d-block">Indicadores y reportes</strong>Estadísticas reales y exportación a Excel y PDF.</div></div>
+        </div>
+      </div>
+      <small class="text-secondary">© DermaCare · Laboratorio de Programación III</small>
+    </section>
+
+    <section class="auth-form-side">
+      <div class="auth-card">
+        <h2 class="mb-1">Iniciar sesión</h2>
+        <p class="text-muted mb-4">Ingrese sus credenciales para acceder al sistema.</p>
+        <form id="loginForm" novalidate data-testid="login-form">
+          <div class="alert alert-danger form-alert d-none py-2 small" data-testid="login-error"></div>
+          <div class="mb-3">
+            <label class="form-label" for="email">Correo electrónico</label>
+            <div class="input-icon">
+              <i class="bi bi-envelope"></i>
+              <input type="email" class="form-control form-control-lg" id="email" name="email" required autocomplete="username" placeholder="usuario@dermacare.demo" data-testid="login-email-input">
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label" for="password">Contraseña</label>
+            <div class="input-icon">
+              <i class="bi bi-lock"></i>
+              <input type="password" class="form-control form-control-lg" id="password" name="password" required autocomplete="current-password" placeholder="••••••••" data-testid="login-password-input">
+              <button type="button" class="pw-toggle" id="pwToggle" aria-label="Mostrar contraseña" data-testid="login-password-toggle"><i class="bi bi-eye"></i></button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-100" data-testid="login-submit-btn"><i class="bi bi-box-arrow-in-right me-2"></i>Ingresar</button>
+        </form>
+        <div class="d-flex align-items-center gap-2 mt-4 small text-muted">
+          <i class="bi bi-shield-lock text-success"></i> Conexión protegida con JWT y contraseñas cifradas (bcrypt).
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/auth.js"></script>
+</body>
+</html>

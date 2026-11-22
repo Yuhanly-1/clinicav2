@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Consultas · DermaCare</title>
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="consultas" data-roles="admin,dermatologo" data-title="Consultas dermatológicas">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="page-head">
+          <div><h1>Consultas dermatológicas</h1><p>Registro de síntomas, examen, diagnósticos y tratamientos.</p></div>
+        </div>
+
+        <!-- Registro de consulta (dermatólogo) -->
+        <section id="registroSection" class="d-none mb-4" data-testid="consultation-register-section">
+          <div class="row g-3">
+            <div class="col-lg-4">
+              <div class="dc-card h-100"><div class="dc-card-header"><h2><i class="bi bi-person-vcard me-2 text-primary"></i>Paciente</h2>
+                <a class="btn btn-sm btn-soft" id="histLink" data-testid="consultation-history-link"><i class="bi bi-journal-medical me-1"></i>Historial</a></div>
+                <div class="dc-card-body" id="pacienteInfo"></div></div>
+            </div>
+            <div class="col-lg-8">
+              <form class="dc-card" id="consultaForm" novalidate data-testid="consultation-form">
+                <div class="dc-card-header"><h2><i class="bi bi-clipboard2-pulse me-2 text-primary"></i>Registrar consulta</h2><span id="citaInfo" class="small text-muted"></span></div>
+                <div class="dc-card-body">
+                  <div class="alert alert-danger form-alert d-none py-2 small" data-testid="consultation-form-error"></div>
+                  <input type="hidden" name="cita_id">
+                  <div class="mb-3"><label class="form-label">Motivo de consulta <span class="req">*</span></label><input class="form-control" name="motivo" required minlength="3" maxlength="2000" data-testid="consultation-reason-input"></div>
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6"><label class="form-label">Síntomas <span class="req">*</span></label><textarea class="form-control" name="sintomas" rows="4" required minlength="3" maxlength="4000" data-testid="consultation-symptoms-input"></textarea></div>
+                    <div class="col-md-6"><label class="form-label">Examen dermatológico <span class="req">*</span></label><textarea class="form-control" name="examen_dermatologico" rows="4" required minlength="3" maxlength="4000" data-testid="consultation-exam-input"></textarea></div>
+                  </div>
+                  <div class="form-section d-flex justify-content-between align-items-center">Diagnósticos <button type="button" class="btn btn-sm btn-soft" id="addDiag" data-testid="consultation-add-diagnosis-btn"><i class="bi bi-plus"></i> Agregar</button></div>
+                  <div id="diagList" data-testid="consultation-diagnosis-list"></div>
+                  <div class="text-danger small d-none mb-2" id="diagError"></div>
+                  <div class="mb-3"><label class="form-label">Tratamiento <span class="req">*</span></label><textarea class="form-control" name="tratamiento" rows="3" required minlength="3" maxlength="4000" data-testid="consultation-treatment-input"></textarea></div>
+                  <div class="mb-1"><label class="form-label">Observaciones</label><textarea class="form-control" name="observaciones" rows="2" maxlength="4000" data-testid="consultation-notes-input"></textarea></div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 px-4 pb-4">
+                  <a href="/pages/citas.html" class="btn btn-soft">Volver a la agenda</a>
+                  <button type="submit" class="btn btn-success" data-testid="consultation-save-btn"><i class="bi bi-check2-circle me-1"></i>Guardar consulta y completar cita</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Citas por atender (dermatólogo) -->
+        <section id="porAtender" class="dc-card mb-4 d-none" data-testid="consultation-pending-section">
+          <div class="dc-card-header"><h2><i class="bi bi-hourglass-split me-2 text-warning"></i>Citas por atender hoy</h2></div>
+          <div class="table-responsive"><table class="table dc-table"><thead><tr><th>Hora</th><th>Paciente</th><th>Motivo</th><th>Estado</th><th class="text-end">Acción</th></tr></thead><tbody id="atenderBody"></tbody></table></div>
+        </section>
+
+        <div class="dc-card">
+          <div class="filter-bar">
+            <div class="search"><i class="bi bi-search"></i><input type="search" class="form-control" id="fQ" placeholder="Buscar por paciente..." data-testid="consultation-search-input"></div>
+            <input type="date" class="form-control" id="fDesde" title="Desde" data-testid="consultation-filter-from">
+            <input type="date" class="form-control" id="fHasta" title="Hasta" data-testid="consultation-filter-to">
+          </div>
+          <div class="table-responsive">
+            <table class="table dc-table" data-testid="consultations-table">
+              <thead><tr><th>Fecha</th><th>Paciente</th><th>Dermatólogo</th><th>Diagnóstico principal</th><th>Tratamiento</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <div class="px-3 py-2 small text-muted border-top" id="countInfo"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal fade" id="viewModal" tabindex="-1" data-testid="consultation-view-modal">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Detalle de la consulta</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+      <div class="modal-body" id="viewBody"></div>
+    </div></div>
+  </div>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/layout.js"></script>
+  <script src="/assets/js/consultas.js"></script>
+</body>
+</html>

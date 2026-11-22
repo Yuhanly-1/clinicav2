@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reportes · DermaCare</title>
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="reportes" data-roles="admin" data-title="Reportes">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="page-head"><div><h1>Reportes</h1><p>Archivos generados con datos reales de PostgreSQL (ExcelJS y PDFKit).</p></div></div>
+
+        <div class="dc-card dc-card-body mb-4">
+          <div class="label-caps mb-2"><i class="bi bi-funnel me-1"></i>Filtros</div>
+          <div class="row g-3 align-items-end">
+            <div class="col-sm-6 col-lg-3"><label class="form-label">Desde</label><input type="date" class="form-control" id="fDesde" data-testid="report-filter-from"></div>
+            <div class="col-sm-6 col-lg-3"><label class="form-label">Hasta</label><input type="date" class="form-control" id="fHasta" data-testid="report-filter-to"></div>
+            <div class="col-sm-6 col-lg-3"><label class="form-label">Estado de cita</label>
+              <select class="form-select" id="fEstadoCita" data-testid="report-filter-appointment-status"><option value="">Todos</option><option>Pendiente</option><option>Confirmada</option><option>En consulta</option><option>Completada</option><option>Cancelada</option></select></div>
+            <div class="col-sm-6 col-lg-3"><label class="form-label">Estado de registro</label>
+              <select class="form-select" id="fEstado" data-testid="report-filter-record-status"><option value="">Todos</option><option value="activo">Activos</option><option value="inactivo">Inactivos</option></select></div>
+          </div>
+          <div class="form-text mt-2">Las fechas aplican a: registro (pacientes), fecha de la cita (citas) y fecha de atención (consultas y actividad).</div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6 col-xl-4"><div class="dc-card dc-card-body report-card">
+            <div class="report-icon bg-success-subtle text-success mb-3"><i class="bi bi-file-earmark-excel"></i></div>
+            <h3 class="h6 font-heading">Pacientes</h3><p class="small text-muted">Listado con datos de contacto, alergias, fecha de registro y estado.</p>
+            <button class="btn btn-success" data-report="pacientes" data-testid="report-pacientes-excel-btn"><i class="bi bi-download me-1"></i>Descargar Excel</button></div></div>
+          <div class="col-md-6 col-xl-4"><div class="dc-card dc-card-body report-card">
+            <div class="report-icon bg-success-subtle text-success mb-3"><i class="bi bi-file-earmark-excel"></i></div>
+            <h3 class="h6 font-heading">Dermatólogos</h3><p class="small text-muted">Especialistas, exequátur, usuario asociado y totales de citas y consultas.</p>
+            <button class="btn btn-success" data-report="dermatologos" data-testid="report-dermatologos-excel-btn"><i class="bi bi-download me-1"></i>Descargar Excel</button></div></div>
+          <div class="col-md-6 col-xl-4"><div class="dc-card dc-card-body report-card">
+            <div class="report-icon bg-success-subtle text-success mb-3"><i class="bi bi-file-earmark-excel"></i></div>
+            <h3 class="h6 font-heading">Citas</h3><p class="small text-muted">Agenda por rango de fechas y estado, con paciente y especialista.</p>
+            <button class="btn btn-success" data-report="citas" data-testid="report-citas-excel-btn"><i class="bi bi-download me-1"></i>Descargar Excel</button></div></div>
+          <div class="col-md-6 col-xl-4"><div class="dc-card dc-card-body report-card">
+            <div class="report-icon bg-danger-subtle text-danger mb-3"><i class="bi bi-file-earmark-pdf"></i></div>
+            <h3 class="h6 font-heading">Consultas</h3><p class="small text-muted">Consultas con motivo, diagnósticos y tratamientos en formato PDF.</p>
+            <button class="btn btn-navy" data-report="consultas" data-testid="report-consultas-pdf-btn"><i class="bi bi-download me-1"></i>Descargar PDF</button></div></div>
+          <div class="col-md-6 col-xl-4"><div class="dc-card dc-card-body report-card">
+            <div class="report-icon bg-primary-subtle text-primary mb-3"><i class="bi bi-file-earmark-bar-graph"></i></div>
+            <h3 class="h6 font-heading">Actividad general</h3><p class="small text-muted">Indicadores del período, citas por estado, actividad por especialista y diagnósticos frecuentes.</p>
+            <button class="btn btn-navy" data-report="actividad" data-testid="report-actividad-pdf-btn"><i class="bi bi-download me-1"></i>Descargar PDF</button></div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/layout.js"></script>
+  <script src="/assets/js/reportes.js"></script>
+</body>
+</html>

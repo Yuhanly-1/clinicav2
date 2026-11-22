@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usuarios · DermaCare</title>
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="usuarios" data-roles="admin" data-title="Usuarios del sistema">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="page-head">
+          <div><h1>Usuarios</h1><p>Cuentas de acceso, roles y estado. Las contraseñas se almacenan cifradas con bcrypt.</p></div>
+          <button class="btn btn-success" id="newBtn" data-testid="user-new-btn"><i class="bi bi-person-plus me-1"></i>Nuevo usuario</button>
+        </div>
+        <div class="dc-card">
+          <div class="filter-bar">
+            <div class="search"><i class="bi bi-search"></i><input type="search" class="form-control" id="fQ" placeholder="Buscar por nombre o correo..." data-testid="user-search-input"></div>
+            <select class="form-select" id="fRol" data-testid="user-filter-role"><option value="">Todos los roles</option><option value="admin">Administrador</option><option value="dermatologo">Dermatólogo</option><option value="recepcionista">Recepcionista</option></select>
+            <select class="form-select" id="fEstado" data-testid="user-filter-status"><option value="">Todos</option><option value="activo">Activos</option><option value="inactivo">Inactivos</option></select>
+          </div>
+          <div class="table-responsive">
+            <table class="table dc-table" data-testid="users-table">
+              <thead><tr><th>Usuario</th><th>Rol</th><th>Dermatólogo asociado</th><th>Último acceso</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal fade" id="formModal" tabindex="-1" data-testid="user-form-modal">
+    <div class="modal-dialog"><form class="modal-content" id="userForm" novalidate>
+      <div class="modal-header"><h5 class="modal-title" id="formTitle">Nuevo usuario</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+      <div class="modal-body">
+        <div class="alert alert-danger form-alert d-none py-2 small" data-testid="user-form-error"></div>
+        <div class="mb-3"><label class="form-label">Nombre completo <span class="req">*</span></label><input class="form-control" name="nombre" required minlength="3" maxlength="120" data-testid="user-nombre-input"></div>
+        <div class="mb-3"><label class="form-label">Correo electrónico <span class="req">*</span></label><input type="email" class="form-control" name="email" required maxlength="150" data-testid="user-email-input"></div>
+        <div class="mb-3"><label class="form-label">Rol <span class="req">*</span></label>
+          <select class="form-select" name="rol" required data-testid="user-rol-select"><option value="">Seleccione...</option><option value="admin">Administrador</option><option value="dermatologo">Dermatólogo</option><option value="recepcionista">Recepcionista</option></select></div>
+        <div class="mb-1"><label class="form-label">Contraseña <span class="req" id="pwReq">*</span></label><input type="password" class="form-control" name="password" minlength="8" maxlength="72" autocomplete="new-password" data-testid="user-password-input">
+          <div class="form-text" id="pwHelp">Mínimo 8 caracteres.</div></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-soft" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" data-testid="user-form-save-btn"><i class="bi bi-check2-circle me-1"></i>Guardar</button>
+      </div>
+    </form></div>
+  </div>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/layout.js"></script>
+  <script src="/assets/js/usuarios.js"></script>
+</body>
+</html>

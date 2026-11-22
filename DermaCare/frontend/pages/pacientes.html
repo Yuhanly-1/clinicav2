@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pacientes · DermaCare</title>
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="pacientes" data-roles="admin,recepcionista,dermatologo" data-title="Pacientes">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1>Pacientes</h1>
+            <p id="pageSubtitle">Registro, búsqueda y actualización de la información de los pacientes.</p>
+          </div>
+          <button class="btn btn-success" id="newBtn" data-roles-show="admin,recepcionista" data-testid="patient-new-btn"><i class="bi bi-person-plus me-1"></i>Registrar paciente</button>
+        </div>
+
+        <div class="dc-card">
+          <div class="filter-bar">
+            <div class="search"><i class="bi bi-search"></i><input type="search" class="form-control" id="fQ" placeholder="Buscar pacientes..." data-testid="patient-search-input"></div>
+            <select class="form-select" id="fCampo" data-testid="patient-search-field">
+              <option value="">Todos los campos</option><option value="nombre">Nombre</option><option value="apellido">Apellido</option><option value="cedula">Cédula</option>
+            </select>
+            <select class="form-select" id="fEstado" data-testid="patient-filter-status">
+              <option value="">Todos los estados</option><option value="activo" selected>Activos</option><option value="inactivo">Inactivos</option>
+            </select>
+            <select class="form-select" id="fSexo" data-testid="patient-filter-sex">
+              <option value="">Todos los sexos</option><option value="F">Femenino</option><option value="M">Masculino</option><option value="O">Otro</option>
+            </select>
+          </div>
+          <div class="table-responsive">
+            <table class="table dc-table" data-testid="patients-table">
+              <thead><tr><th>Paciente</th><th>Cédula</th><th>Edad / Sexo</th><th>Contacto</th><th>Registro</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <div class="px-3 py-2 small text-muted border-top" id="countInfo" data-testid="patients-count"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal formulario -->
+  <div class="modal fade" id="formModal" tabindex="-1" data-testid="patient-form-modal">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <form class="modal-content" id="pacienteForm" novalidate>
+        <div class="modal-header"><h5 class="modal-title" id="formTitle">Registrar paciente</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+        <div class="modal-body">
+          <div class="alert alert-danger form-alert d-none py-2 small" data-testid="patient-form-error"></div>
+          <div class="form-section">Datos personales</div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><label class="form-label">Nombres <span class="req">*</span></label><input class="form-control" name="nombres" required minlength="2" maxlength="80" data-testid="patient-nombres-input"></div>
+            <div class="col-md-6"><label class="form-label">Apellidos <span class="req">*</span></label><input class="form-control" name="apellidos" required minlength="2" maxlength="80" data-testid="patient-apellidos-input"></div>
+            <div class="col-md-4"><label class="form-label">Cédula</label><input class="form-control" name="cedula" maxlength="20" pattern="[0-9A-Za-z\-]{5,20}" placeholder="000-0000000-0" data-testid="patient-cedula-input"></div>
+            <div class="col-md-4"><label class="form-label">Fecha de nacimiento <span class="req">*</span></label><input type="date" class="form-control" name="fecha_nacimiento" required min="1900-01-01" data-testid="patient-birthdate-input"></div>
+            <div class="col-md-4"><label class="form-label">Sexo <span class="req">*</span></label>
+              <select class="form-select" name="sexo" required data-testid="patient-sexo-select"><option value="">Seleccione...</option><option value="F">Femenino</option><option value="M">Masculino</option><option value="O">Otro</option></select></div>
+          </div>
+          <div class="form-section">Contacto</div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-4"><label class="form-label">Teléfono <span class="req">*</span></label><input type="tel" class="form-control" name="telefono" required pattern="\+?[0-9\s()\-]{7,20}" placeholder="809-555-0000" data-testid="patient-telefono-input"></div>
+            <div class="col-md-8"><label class="form-label">Correo electrónico</label><input type="email" class="form-control" name="email" maxlength="150" data-testid="patient-email-input"></div>
+            <div class="col-12"><label class="form-label">Dirección</label><input class="form-control" name="direccion" maxlength="255" data-testid="patient-direccion-input"></div>
+          </div>
+          <div class="form-section">Información médica</div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Antecedentes médicos</label><textarea class="form-control" name="antecedentes" rows="3" maxlength="3000" data-testid="patient-antecedentes-input"></textarea></div>
+            <div class="col-md-6"><label class="form-label">Alergias</label><textarea class="form-control" name="alergias" rows="3" maxlength="1000" data-testid="patient-alergias-input"></textarea></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-soft" data-bs-dismiss="modal" data-testid="patient-form-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn btn-success" data-testid="patient-form-save-btn"><i class="bi bi-check2-circle me-1"></i>Guardar paciente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal detalle -->
+  <div class="modal fade" id="viewModal" tabindex="-1" data-testid="patient-view-modal">
+    <div class="modal-dialog modal-lg"><div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Ficha del paciente</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+      <div class="modal-body" id="viewBody"></div>
+      <div class="modal-footer" id="viewFooter"></div>
+    </div></div>
+  </div>
+
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/layout.js"></script>
+  <script src="/assets/js/pacientes.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "name": "dermacare-backend",
+  "version": "1.0.0",
+  "description": "API REST de DermaCare (Node.js + Express + PostgreSQL)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:init": "node src/utils/initDb.js",
+    "db:seed": "node src/utils/initDb.js --seed",
+    "test": "node --test ../tests/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.9",
+    "bootstrap-icons": "^1.13.2",
+    "chart.js": "^4.6.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "exceljs": "^4.4.0",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "pdfkit": "^0.21.0",
+    "pg": "^8.23.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial médico · DermaCare</title>
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="historial" data-roles="admin,dermatologo" data-title="Historial médico">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="page-head">
+          <div><h1>Historial médico</h1><p>Información clínica protegida. Solo personal autorizado.</p></div>
+          <div class="position-relative" style="min-width:300px">
+            <div class="input-icon"><i class="bi bi-search"></i><input type="search" class="form-control" id="buscar" placeholder="Buscar paciente por nombre o cédula..." autocomplete="off" data-testid="history-patient-search"></div>
+            <div class="dropdown-menu w-100 shadow border-0" id="resultados" data-testid="history-search-results"></div>
+          </div>
+        </div>
+        <div id="historial" data-testid="history-content">
+          <div class="dc-card"><div class="empty-state"><i class="bi bi-journal-medical"></i>Busque y seleccione un paciente para ver su historial clínico.</div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/layout.js"></script>
+  <script src="/assets/js/historial.js"></script>
+</body>
+</html>

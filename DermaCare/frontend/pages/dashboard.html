@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · DermaCare</title>
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/vendor/poppins/500.css">
+  <link rel="stylesheet" href="/vendor/poppins/600.css">
+  <link rel="stylesheet" href="/vendor/inter/400.css">
+  <link rel="stylesheet" href="/vendor/inter/500.css">
+  <link rel="stylesheet" href="/vendor/inter/600.css">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-page="dashboard" data-roles="admin" data-title="Dashboard administrativo">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="main">
+      <header class="topbar" id="topbar"></header>
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <h1>Resumen de la clínica</h1>
+            <p>Indicadores calculados en tiempo real desde PostgreSQL.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-soft" id="refreshBtn" data-testid="dashboard-refresh-btn"><i class="bi bi-arrow-clockwise me-1"></i>Actualizar</button>
+            <a class="btn btn-success" href="/pages/citas.html?nueva=1" data-testid="dashboard-new-appointment-btn"><i class="bi bi-calendar-plus me-1"></i>Nueva cita</a>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4" id="kpis">
+          <div class="col-6 col-md-4 col-xl-2"><div class="dc-card kpi tone-blue"><div class="kpi-icon"><i class="bi bi-people"></i></div><div class="kpi-value" data-kpi="total_pacientes" data-testid="kpi-total-pacientes">—</div><div class="kpi-label">Pacientes activos</div></div></div>
+          <div class="col-6 col-md-4 col-xl-2"><div class="dc-card kpi tone-navy"><div class="kpi-icon"><i class="bi bi-person-badge"></i></div><div class="kpi-value" data-kpi="dermatologos_activos" data-testid="kpi-dermatologos-activos">—</div><div class="kpi-label">Dermatólogos activos</div></div></div>
+          <div class="col-6 col-md-4 col-xl-2"><div class="dc-card kpi tone-violet"><div class="kpi-icon"><i class="bi bi-calendar-day"></i></div><div class="kpi-value" data-kpi="citas_hoy" data-testid="kpi-citas-hoy">—</div><div class="kpi-label">Citas de hoy</div></div></div>
+          <div class="col-6 col-md-4 col-xl-2"><div class="dc-card kpi tone-amber"><div class="kpi-icon"><i class="bi bi-hourglass-split"></i></div><div class="kpi-value" data-kpi="citas_pendientes" data-testid="kpi-citas-pendientes">—</div><div class="kpi-label">Citas pendientes</div></div></div>
+          <div class="col-6 col-md-4 col-xl-2"><div class="dc-card kpi tone-green"><div class="kpi-icon"><i class="bi bi-clipboard2-check"></i></div><div class="kpi-value" data-kpi="consultas_completadas" data-testid="kpi-consultas-completadas">—</div><div class="kpi-label">Consultas completadas</div></div></div>
+          <div class="col-6 col-md-4 col-xl-2"><div class="dc-card kpi tone-red"><div class="kpi-icon"><i class="bi bi-x-octagon"></i></div><div class="kpi-value" data-kpi="citas_canceladas" data-testid="kpi-citas-canceladas">—</div><div class="kpi-label">Citas canceladas</div></div></div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-lg-8">
+            <div class="dc-card h-100">
+              <div class="dc-card-header"><h2><i class="bi bi-bar-chart me-2 text-primary"></i>Citas por mes</h2><span class="label-caps">Últimos 12 meses</span></div>
+              <div class="dc-card-body"><div class="chart-box"><canvas id="chartMensual" data-testid="chart-citas-mensuales"></canvas></div></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="dc-card h-100">
+              <div class="dc-card-header"><h2><i class="bi bi-pie-chart me-2 text-primary"></i>Citas por estado</h2></div>
+              <div class="dc-card-body"><div class="chart-box"><canvas id="chartEstado" data-testid="chart-citas-estado"></canvas></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-lg-6">
+            <div class="dc-card h-100">
+              <div class="dc-card-header"><h2><i class="bi bi-graph-up me-2 text-success"></i>Consultas por período</h2><span class="label-caps">Por semana</span></div>
+              <div class="dc-card-body"><div class="chart-box" style="height:240px"><canvas id="chartConsultas" data-testid="chart-consultas-periodo"></canvas></div></div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="dc-card h-100">
+              <div class="dc-card-header"><h2><i class="bi bi-activity me-2 text-primary"></i>Actividad de la clínica</h2><span class="label-caps">Últimos 14 días</span></div>
+              <div class="dc-card-body"><div class="chart-box" style="height:240px"><canvas id="chartActividad" data-testid="chart-actividad"></canvas></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-xl-8">
+            <div class="dc-card">
+              <div class="dc-card-header"><h2><i class="bi bi-clock-history me-2 text-primary"></i>Próximas citas</h2><a href="/pages/citas.html" class="btn btn-sm btn-soft" data-testid="dashboard-view-all-appointments">Ver agenda</a></div>
+              <div class="table-responsive">
+                <table class="table dc-table" data-testid="upcoming-appointments-table">
+                  <thead><tr><th>Fecha y hora</th><th>Paciente</th><th>Dermatólogo</th><th>Motivo</th><th>Estado</th></tr></thead>
+                  <tbody id="proximasBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4">
+            <div class="dc-card h-100">
+              <div class="dc-card-header"><h2><i class="bi bi-list-check me-2 text-primary"></i>Acciones recientes</h2></div>
+              <div class="dc-card-body py-2" id="recientes" data-testid="recent-activity-list"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/chartjs/chart.umd.min.js"></script>
+  <script src="/assets/js/api.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/layout.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+</html>
